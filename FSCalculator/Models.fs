@@ -65,5 +65,7 @@ module Models =
                             else
                                 inputState.NumberCount - 1
                         Input = inputState.Input.Substring( 0, inputState.Input.Length - 1)}
+            | Clear ->
+                InputState.Empty
 
     type ProcessedState = { History: string; Result: float; PendingOperation: Operation; PendingNumber: float }
