@@ -5,21 +5,21 @@ type Operation =
     | Subtract
     | Multiply
     | Divide
-    | Negate
-    | Result
 
-type Expression = 
-    private
+type Input = 
     | Operation of Operation
     | Number of int
+    | Negate
+    | Result
     | Delete
     | Clear
 
-type State = { History: string; Result: float; Operation: Operation }
+type InputState = { Input: string; DecimalPoint: bool }
+
+type ProcessedState = { History: string; Result: float; PendingOperation: Operation; PendingNumber: float }
 
 module Calculator =
 
     [<EntryPoint>]
     let main argv = 
-        let d = Delete
         0 // return an integer exit code
