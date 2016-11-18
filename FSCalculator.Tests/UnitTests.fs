@@ -53,16 +53,26 @@ module CalculatorTest =
     let ``Only one decimal point should be added``() =
         let inputState = InputState.Empty
 
-        Assert.Throws<MoreThanOneDecimalPointException>(fun () -> 
-            ModifyInputState DecimalPoint inputState |> ModifyInputState DecimalPoint |> ignore )
+        let result = ModifyInputState DecimalPoint inputState |> ModifyInputState DecimalPoint
+
+        Assert.Equal("0.", result.Input)
 
     [<Fact>]
     let ``Maximum 16 number should be added``() =
         let inputState = InputState.Empty
 
-        Assert.Throws<MoreThan16NumberException>(fun () -> 
-            Seq.replicate 17 (Number 4) |> Seq.fold (fun s i -> ModifyInputState i s) inputState
-            |> ignore)
+        let result = Seq.replicate 17 (Number 4) |> Seq.fold (fun s i -> ModifyInputState i s) inputState
+
+        Assert.Equal("4444444444444444", result.Input)
+
+    [<Fact>]
+    let ``Maximum 16 number should be added wit a decimal point``() =
+        let inputState = InputState.Empty
+
+        let result = Seq.replicate 15 (Number 4) |> Seq.fold (fun s i -> ModifyInputState i s) inputState |>
+                        ModifyInputState DecimalPoint |> ModifyInputState (Number 1)     
+
+        Assert.Equal("444444444444444.1", result.Input)
 
     [<Fact>]
     let ``Negation should put a minus sign to the front``() =

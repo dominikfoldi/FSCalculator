@@ -17,8 +17,6 @@ module Models =
         | Delete
         | Clear
 
-    exception MoreThanOneDecimalPointException
-    exception MoreThan16NumberException
     exception NumberOutOfBoundsException of string
 
     type InputState = 
@@ -40,14 +38,14 @@ module Models =
                             Input = inputState.Input + n.ToString()
                             NumberCount = inputState.NumberCount + 1 }
                     else
-                        raise MoreThan16NumberException
+                        inputState
             | DecimalPoint -> 
                 if not inputState.DecimalPoint then
                     { inputState with 
                         Input = inputState.Input + "."
                         DecimalPoint = true }
                 else
-                    raise MoreThanOneDecimalPointException
+                    inputState
             | Negate ->
                 if not inputState.Negated then
                     { inputState with 
