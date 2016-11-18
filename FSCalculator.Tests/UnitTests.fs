@@ -27,6 +27,13 @@ module CalculatorTest =
         Assert.Equal("12", result.Input)
 
     [<Fact>]
+    let ``Number bigger than 9 should not be added``() =
+        let inputState = InputState.Empty
+
+        Assert.Throws<NumberOutOfBoundsException>(fun () -> 
+            ModifyInputState (Number 20) inputState |> ignore )
+
+    [<Fact>]
     let ``Decimal point should be added after a number``() =
         let inputState = InputState.Empty
 

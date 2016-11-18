@@ -17,19 +17,22 @@ module Models =
         | Delete
         | Clear
 
+    exception MoreThanOneDecimalPointException
+    exception MoreThan16NumberException
+    exception NumberOutOfBoundsException of string
+
     type InputState = 
         { Input: string; DecimalPoint: bool; NumberCount: int; Negated: bool }
 
         static member Empty = 
             { Input = "0"; DecimalPoint = false; NumberCount = 1; Negated = false }
 
-    exception MoreThanOneDecimalPointException
-    exception MoreThan16NumberException
-
     let ModifyInputState (input: Input) (inputState: InputState) = 
         match input with
             | Number n -> 
-                if inputState.Input = "0" then 
+                if n > 9 || n < 0 then
+                    raise (NumberOutOfBoundsException "Cannot process numbers not between 0 and 9")
+                elif inputState.Input = "0" then 
                     { inputState with Input = n.ToString() }
                 else
                     if inputState.NumberCount < 16 then
