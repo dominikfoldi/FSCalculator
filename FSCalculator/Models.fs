@@ -13,7 +13,7 @@ module Models =
         | Number of int
         | DecimalPoint
         | Negate
-        | Result
+        | Evaluate
         | Delete
         | Clear
 
@@ -54,5 +54,16 @@ module Models =
                     { inputState with 
                         Input = inputState.Input.Substring 1
                         Negated = false }
+            | Delete ->
+                if inputState.NumberCount = 1 && not inputState.DecimalPoint then
+                    InputState.Empty
+                else 
+                    { inputState with 
+                        NumberCount = 
+                            if inputState.Input.EndsWith "." then 
+                                inputState.NumberCount 
+                            else
+                                inputState.NumberCount - 1
+                        Input = inputState.Input.Substring( 0, inputState.Input.Length - 1)}
 
     type ProcessedState = { History: string; Result: float; PendingOperation: Operation; PendingNumber: float }

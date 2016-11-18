@@ -72,3 +72,51 @@ module CalculatorTest =
         let result = ModifyInputState (Number 2) inputState |> ModifyInputState Negate |> ModifyInputState Negate
 
         Assert.Equal("2", result.Input)
+
+    [<Fact>]
+    let ``Delete should delete one char from the end``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState (Number 2) inputState |> ModifyInputState (Number 2) |> ModifyInputState Delete
+
+        Assert.Equal("2", result.Input)
+
+    [<Fact>]
+    let ``Delete should decrease NumberCount by one``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState (Number 2) inputState |> ModifyInputState (Number 2) |> ModifyInputState Delete
+
+        Assert.Equal(1, result.NumberCount)
+
+    [<Fact>]
+    let ``Deleted decimal point should not decrease NumberCount``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState (Number 2) inputState |> ModifyInputState DecimalPoint |> ModifyInputState Delete
+
+        Assert.Equal(1, result.NumberCount)
+
+    [<Fact>]
+    let ``Delete should not delete a null input``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState Delete inputState
+
+        Assert.Equal("0", result.Input)
+
+    [<Fact>]
+    let ``Delete should change one number long input to 0``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState (Number 2) inputState |> ModifyInputState Delete
+
+        Assert.Equal("0", result.Input)
+
+    [<Fact>]
+    let ``Delete should change Negated flag to false if it deletes one number long input``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState (Number 2) inputState |> ModifyInputState Negate |> ModifyInputState Delete
+
+        Assert.False(result.Negated)
