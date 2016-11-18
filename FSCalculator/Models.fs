@@ -31,6 +31,12 @@ module Models =
         static member Empty = 
             { Input = "0"; DecimalPoint = false; NumberCount = 1; Negated = false }
 
+    type CalculatorState = 
+        { History: string; Result: float; Pending: (Operation * float) option}    
+
+        static member Empty =
+            { History = ""; Result = 0.0; Pending = None }
+
     let ModifyInputState (input: NumberInput) (inputState: InputState) = 
         match input with
             | Number n -> 
@@ -72,5 +78,3 @@ module Models =
                             else
                                 inputState.NumberCount - 1
                         Input = inputState.Input.Substring( 0, inputState.Input.Length - 1)}
-
-    type ProcessedState = { History: string; Result: float; Pending: (Operation * float) option}

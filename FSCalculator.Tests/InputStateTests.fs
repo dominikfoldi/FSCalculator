@@ -3,7 +3,7 @@
 open Xunit
 open FSCalculator.Models
 
-module CalculatorTest =
+module InputStateTest =
 
     [<Fact>]
     let ``Empty InputState should return 0``() =

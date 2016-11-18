@@ -55,7 +55,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Content Include="packages.config" />
-    <Compile Include="UnitTests.fs" />
+    <Compile Include="CalculatorStateTests.fs" />
+    <Compile Include="InputStateTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
