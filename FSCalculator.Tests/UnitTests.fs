@@ -137,12 +137,3 @@ module CalculatorTest =
         let result = ModifyInputState (Number 2) inputState |> ModifyInputState Negate |> ModifyInputState Delete
 
         Assert.False(result.Negated)
-
-    [<Fact>]
-    let ``Clear should clear input``() =
-        let inputState = InputState.Empty
-
-        let result = ModifyInputState (Number 2) inputState |> ModifyInputState Negate |> 
-                        ModifyInputState DecimalPoint |> ModifyInputState Clear
-
-        Assert.Equal(InputState.Empty, result)

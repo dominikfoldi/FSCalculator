@@ -8,13 +8,19 @@ module Models =
         | Multiply
         | Divide
 
-    type Input = 
-        | Operation of Operation
+    type NumberInput = 
         | Number of int
         | DecimalPoint
         | Negate
-        | Evaluate
         | Delete
+
+    type EvaluateInput =
+        | Operation of Operation
+        | Evaluate
+
+    type CalculatorInput =
+        | NumberInput of NumberInput
+        | EvaluateInput of EvaluateInput
         | Clear
 
     exception NumberOutOfBoundsException of string
@@ -25,7 +31,7 @@ module Models =
         static member Empty = 
             { Input = "0"; DecimalPoint = false; NumberCount = 1; Negated = false }
 
-    let ModifyInputState (input: Input) (inputState: InputState) = 
+    let ModifyInputState (input: NumberInput) (inputState: InputState) = 
         match input with
             | Number n -> 
                 if n > 9 || n < 0 then
@@ -66,7 +72,5 @@ module Models =
                             else
                                 inputState.NumberCount - 1
                         Input = inputState.Input.Substring( 0, inputState.Input.Length - 1)}
-            | Clear ->
-                InputState.Empty
 
-    type ProcessedState = { History: string; Result: float; PendingOperation: Operation; PendingNumber: float }
+    type ProcessedState = { History: string; Result: float; Pending: (Operation * float) option}
