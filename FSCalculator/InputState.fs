@@ -1,27 +1,12 @@
 ﻿namespace FSCalculator 
 
-module Models =
-
-    type Operation = 
-        | Add
-        | Subtract
-        | Multiply
-        | Divide
+module InputState =
 
     type NumberInput = 
         | Number of int
         | DecimalPoint
         | Negate
         | Delete
-
-    type EvaluateInput =
-        | Operation of Operation
-        | Evaluate
-
-    type CalculatorInput =
-        | NumberInput of NumberInput
-        | EvaluateInput of EvaluateInput
-        | Clear
 
     exception NumberOutOfBoundsException of string
 
@@ -30,12 +15,6 @@ module Models =
 
         static member Empty = 
             { Input = "0"; DecimalPoint = false; NumberCount = 1; Negated = false }
-
-    type CalculatorState = 
-        { History: string; Result: float; Pending: (Operation * float) option}    
-
-        static member Empty =
-            { History = ""; Result = 0.0; Pending = None }
 
     let ModifyInputState (input: NumberInput) (inputState: InputState) = 
         match input with

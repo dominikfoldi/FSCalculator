@@ -1,8 +1,8 @@
 ﻿namespace FSCalculator 
 
-open Models
+open Calculator
 
-module Calculator =
+module Main =
 
     [<EntryPoint>]
     let main argv = 

@@ -1,7 +1,7 @@
 ﻿namespace FSCalculator.Tests
 
 open Xunit
-open FSCalculator.Models
+open FSCalculator.CalculatorState
 
 module CalculatorStateTest =
     
