@@ -118,3 +118,21 @@ module CalculatorStateTest =
                         ModifyCalculatorState (Operation Multiply) 4.0
 
         Assert.Equal(5.0, result.Result)
+
+    [<Fact>]
+    let ``Evaluate operation should apply the last operation on the last number``() =
+        let state = CalculatorState.Empty
+
+        let result = ModifyCalculatorState (Operation Add) 15.0 state |> ModifyCalculatorState (Operation Divide) 5.0 |>
+                        ModifyCalculatorState Evaluate 4.0
+
+        Assert.Equal(5.0, result.Result)
+
+    [<Fact>]
+    let ``Evaluate operation should reset the history``() =
+        let state = CalculatorState.Empty
+
+        let result = ModifyCalculatorState (Operation Add) 15.0 state |> ModifyCalculatorState (Operation Divide) 5.0 |>
+                        ModifyCalculatorState Evaluate 4.0
+
+        Assert.Equal("", result.History)
