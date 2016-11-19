@@ -19,15 +19,30 @@ module CalculatorState =
             { History = ""; Result = 0.0; Pending = None }
 
     let ModifyCalculatorState (evaluateInput: EvaluateInput) (number: float) (calculatorState: CalculatorState) = 
-        let newState = 
-            if calculatorState.History = "" then
-                { calculatorState with Result = number }
-            else
-                calculatorState
+        let EvaluatePendingOperation (operation: Operation) (number: float) (result: float) =
+            match operation with
+            | Add -> result + number
+            | Subtract -> result - number
+            | Multiply -> result * number
+            | Divide -> result / number
+
         match evaluateInput with
         | Operation operation ->
+            let newState =
+                 { Result = 
+                        if not (calculatorState.Pending = None) then 
+                            EvaluatePendingOperation (fst calculatorState.Pending.Value) number calculatorState.Result
+                        else
+                            number
+                   History = calculatorState.History + number.ToString()
+                   Pending = Some (operation, number) }
+
             match operation with
             | Add -> 
-                { newState with 
-                    Pending = Some (Add, number)
-                    History = number.ToString() + " + " }
+                { newState with History = newState.History + " + " }
+            | Subtract -> 
+                 { newState with History = newState.History + " - " }
+            | Multiply -> 
+                 { newState with History = newState.History + " * " }
+            | Divide -> 
+                 { newState with History = newState.History + " / " }
