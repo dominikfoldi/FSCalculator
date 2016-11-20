@@ -38,7 +38,9 @@ module InputState =
                 else
                     inputState
             | Negate ->
-                if not inputState.Negated then
+                if inputState.Input = "0" then
+                    inputState
+                elif not inputState.Negated then
                     { inputState with 
                         Input = "-" + inputState.Input
                         Negated = true }

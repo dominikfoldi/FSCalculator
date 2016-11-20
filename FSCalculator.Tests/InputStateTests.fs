@@ -137,3 +137,12 @@ module InputStateTest =
         let result = ModifyInputState (Number 2) inputState |> ModifyInputState Negate |> ModifyInputState Delete
 
         Assert.False(result.Negated)
+
+    [<Fact>]
+    let ``0 should not be negated``() =
+        let inputState = InputState.Empty
+
+        let result = ModifyInputState Negate inputState
+
+        Assert.Equal("0", result.Input)        
+        Assert.Equal(false, result.Negated)

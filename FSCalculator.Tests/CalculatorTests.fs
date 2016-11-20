@@ -57,7 +57,7 @@ module CalculatorTest =
         GetInput (EvaluateInput (Evaluate)) |> ignore
         GetInput (EvaluateInput (Evaluate)) |> ignore
 
-        Assert.Equal(6.0, calculatorState.Result)     
+        Assert.Equal("6", inputState.Input)     
         
     [<Fact>]
     let ``NumberInput after EvaluateInput should reset inputstate``() =
@@ -68,4 +68,22 @@ module CalculatorTest =
         GetInput (EvaluateInput (Operation Add)) |> ignore
         GetInput (NumberInput (Number 2)) |> ignore
 
-        Assert.Equal("2", inputState.Input)         
+        Assert.Equal("2", inputState.Input)     
+        
+    [<Fact>]
+    let ``InputState should be set properly after evaluate``() =
+        inputState <- InputState.Empty
+        calculatorState <- CalculatorState.Empty
+
+        GetInput (NumberInput (Number 9)) |> ignore
+        GetInput (NumberInput DecimalPoint) |> ignore
+        GetInput (NumberInput (Number 5)) |> ignore
+        GetInput (NumberInput Negate) |> ignore
+        GetInput (EvaluateInput (Operation Add)) |> ignore
+        GetInput (NumberInput (Number 2)) |> ignore
+        GetInput (EvaluateInput Evaluate) |> ignore
+
+        Assert.Equal("-7.5", inputState.Input)         
+        Assert.Equal(true, inputState.Negated)         
+        Assert.Equal(2, inputState.NumberCount)         
+        Assert.Equal(true, inputState.DecimalPoint)         

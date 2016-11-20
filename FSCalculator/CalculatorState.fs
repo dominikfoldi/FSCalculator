@@ -45,7 +45,7 @@ module CalculatorState =
                  { newState with History = newState.History + " * " }
             | Divide -> 
                  { newState with History = newState.History + " / " }
-        | Evaluate ->
+         | Evaluate ->
             if not (calculatorState.History = "") then
                 { calculatorState with 
                     Result = ApplyPendingOperation calculatorState.Pending number calculatorState.Result
@@ -56,5 +56,3 @@ module CalculatorState =
                     Result = ApplyPendingOperation calculatorState.Pending number (snd calculatorState.Pending.Value) }
             else
                 calculatorState
-            
-            
