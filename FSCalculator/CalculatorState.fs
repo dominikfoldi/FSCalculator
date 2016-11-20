@@ -46,7 +46,13 @@ module CalculatorState =
             | Divide -> 
                  { newState with History = newState.History + " / " }
         | Evaluate ->
-            { calculatorState with 
-                Result = ApplyPendingOperation calculatorState.Pending number calculatorState.Result
-                History = "" }
+            if not (calculatorState.History = "") then
+                { calculatorState with 
+                    Result = ApplyPendingOperation calculatorState.Pending number calculatorState.Result
+                    Pending = Some ((fst calculatorState.Pending.Value), number)
+                    History = "" }
+            else
+                 { calculatorState with 
+                    Result = ApplyPendingOperation calculatorState.Pending number (snd calculatorState.Pending.Value) 
+                    Pending = Some ((fst calculatorState.Pending.Value), number)}
             

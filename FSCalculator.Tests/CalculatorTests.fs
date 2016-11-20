@@ -46,3 +46,15 @@ module CalculatorTest =
 
         Assert.Equal("", calculatorState.History)          
         Assert.Equal("0", inputState.Input)  
+
+    [<Fact>]
+    let ``Calling evaluate one after another should pass the last inputState as the new number``() =
+        inputState <- InputState.Empty
+        calculatorState <- CalculatorState.Empty
+
+        GetInput (NumberInput (Number 2)) |> ignore
+        GetInput (EvaluateInput (Operation Add)) |> ignore
+        GetInput (EvaluateInput (Evaluate)) |> ignore
+        GetInput (EvaluateInput (Evaluate)) |> ignore
+
+        Assert.Equal(6.0, calculatorState.Result)          

@@ -136,3 +136,12 @@ module CalculatorStateTest =
                         ModifyCalculatorState Evaluate 4.0
 
         Assert.Equal("", result.History)
+            
+    [<Fact>]
+    let ``Calling evaluate with a new number after an evaluate should apply the last operation on the last and new number``() =
+        let state = CalculatorState.Empty
+
+        let result = ModifyCalculatorState (Operation Add) 5.0 state |> ModifyCalculatorState Evaluate 4.0 |>
+                        ModifyCalculatorState Evaluate  8.0
+
+        Assert.Equal(12.0, result.Result)
