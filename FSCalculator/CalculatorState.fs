@@ -20,7 +20,7 @@ module CalculatorState =
 
     let ModifyCalculatorState (evaluateInput: EvaluateInput) (number: float) (calculatorState: CalculatorState) = 
         let ApplyPendingOperation (pending: (Operation * float) option) (number: float) (result: float) =
-            if not (pending = None) then 
+            if pending <> None then  
                 match (fst pending.Value) with
                 | Add -> result + number
                 | Subtract -> result - number
@@ -51,8 +51,8 @@ module CalculatorState =
                     Result = ApplyPendingOperation calculatorState.Pending number calculatorState.Result
                     Pending = Some ((fst calculatorState.Pending.Value), number)
                     History = "" }
-            elif not <| obj.ReferenceEquals (calculatorState.Pending, null) then
+            elif calculatorState.Pending <> None then
                  { calculatorState with 
-                    Result = ApplyPendingOperation calculatorState.Pending number (snd calculatorState.Pending.Value) }
+                    Result = ApplyPendingOperation calculatorState.Pending (snd calculatorState.Pending.Value) number }
             else
-                calculatorState
+                 { calculatorState with Result = number }

@@ -147,9 +147,17 @@ module CalculatorStateTest =
         Assert.Equal(12.0, result.Result)
 
     [<Fact>]
-    let ``Evaluate with no Pending operations should return 0``() =
+    let ``Evaluate 0 when there are no Pending operations should return 0``() =
         let state = CalculatorState.Empty
 
         let result = ModifyCalculatorState Evaluate 0.0 state 
 
         Assert.Equal(0.0, result.Result)
+
+    [<Fact>]
+    let ``Evaluate -10 when there are no Pending operations should return -10``() =
+        let state = CalculatorState.Empty
+
+        let result = ModifyCalculatorState Evaluate -10.0 state 
+
+        Assert.Equal(-10.0, result.Result)
