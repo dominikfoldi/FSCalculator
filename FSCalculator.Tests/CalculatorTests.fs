@@ -57,4 +57,15 @@ module CalculatorTest =
         GetInput (EvaluateInput (Evaluate)) |> ignore
         GetInput (EvaluateInput (Evaluate)) |> ignore
 
-        Assert.Equal(6.0, calculatorState.Result)          
+        Assert.Equal(6.0, calculatorState.Result)     
+        
+    [<Fact>]
+    let ``NumberInput after EvaluateInput should reset inputstate``() =
+        inputState <- InputState.Empty
+        calculatorState <- CalculatorState.Empty
+
+        GetInput (NumberInput (Number 2)) |> ignore
+        GetInput (EvaluateInput (Operation Add)) |> ignore
+        GetInput (NumberInput (Number 2)) |> ignore
+
+        Assert.Equal("2", inputState.Input)         
