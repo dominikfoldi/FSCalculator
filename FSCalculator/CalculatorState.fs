@@ -51,8 +51,10 @@ module CalculatorState =
                     Result = ApplyPendingOperation calculatorState.Pending number calculatorState.Result
                     Pending = Some ((fst calculatorState.Pending.Value), number)
                     History = "" }
-            else
+            elif not <| obj.ReferenceEquals (calculatorState.Pending, null) then
                  { calculatorState with 
-                    Result = ApplyPendingOperation calculatorState.Pending number (snd calculatorState.Pending.Value) 
-                    Pending = Some ((fst calculatorState.Pending.Value), number)}
+                    Result = ApplyPendingOperation calculatorState.Pending number (snd calculatorState.Pending.Value) }
+            else
+                calculatorState
+            
             
